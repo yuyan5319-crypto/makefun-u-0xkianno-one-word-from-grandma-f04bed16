@@ -18,6 +18,14 @@ const WORD = "Skynet";
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 const outFile = join(outDir, "entry.txt");
 
+// The gate only accepts 1-30 characters of non-whitespace text, and the
+// brief allows exactly one word: enforce both before writing anything.
+if (!/^\S{1,30}$/.test(WORD)) {
+  throw new Error(
+    `Entry must be exactly one word of 1-30 non-whitespace characters, got ${JSON.stringify(WORD)}`,
+  );
+}
+
 mkdirSync(outDir, { recursive: true });
 writeFileSync(outFile, WORD, "utf8");
 console.log(`Wrote one word (${WORD.length} characters) to ${outFile}`);
